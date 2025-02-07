@@ -11,7 +11,7 @@ from analysis import *
 from utility import *
 from crypto_hash import sha256_file
 from angr_utilities import *
-
+from calling_convention import *
 import angr
 
 import os
@@ -30,7 +30,7 @@ from rich.text import Text
 
 console = Console(record=True)
 
-def print_calling_convention(arch_name):
+""" def print_calling_convention(arch_name):
 
     if arch_name == "X86":
         user_input = input("Voulez-vous utiliser fastcall, cdecl ou stdcall ? (f/c/s): ").strip().lower()
@@ -50,7 +50,7 @@ def print_calling_convention(arch_name):
         console.print(Panel(f"{arm32_calling_convention}", title="ARM Calling Convention", subtitle="Details", expand=False))
     else:
         print("Architecture non supportée, vous pouvez faire une issue pour demander le support.")
-
+ """
 
 def main():
     
@@ -62,7 +62,9 @@ def main():
     # Ajouter les licenses etc ...
     # Ajouter un graph du CFG
     # Ajouter une detection des fonctions les plus vulnérables
-
+    # Ajoutes une liste des principaux types avec leurs valeurs dans IDA
+    # Ajoute les principaux raccourcis de IDA
+    # ajoute pour chaque architecture les principales mnémoniques à connaitre avant de reverse avec un example et une description en français
     # playwrihgt pour scrapper un site internet
 
     ### Variables du main ### 
@@ -167,7 +169,8 @@ def main():
 
     ### AFFICHAGE DE LA CONVENTION D'APPEL ###
     console.print("Note: Un petit check manuel sur les conventions d'appel est souhaitable. 🔍\n")
-    print_calling_convention(arch.name)
+   
+    display_calling_convention(console, arch.name)
 
     ### AFFICHAGE DU CFG ###
     try:

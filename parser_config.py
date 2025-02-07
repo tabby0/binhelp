@@ -2387,25 +2387,50 @@ RSP ->  +----------------------+
 [/green]
 """
 
-arm64_calling_convention = """
-- [b]Instruction Pointer[/b] Stored in LR (X30) before the call.
-- [b]Return Value[/b] Stored in X0 (primary) and X1 (secondary if needed).
-- [b]Stack Frame Layout[/b]
-    - [SP] → Return address (saved LR = X30, if pushed).
-    - [SP+8] → Saved frame pointer (X29, if used).
-    - [SP+16] → First spilled argument (if needed).
-    - First **eight arguments** passed in registers X0-X7.
-    - Additional arguments are stored on the stack.
-    - Stack must be **16-byte aligned** before the call.
-- [b]Stack Pointers[/b] Uses SP (stack pointer) and X29 as the frame pointer.
+def display_amd64_calling_convention(console):
+    from rich.table import Table
+    from rich.panel import Panel
+    # Create a table for the calling convention
+    table = Table(show_header=True, header_style="bold white")
+    table.add_column("Description", style="bold white")
+    table.add_column("Details", style="bold white")
 
-[green]
-SP ->   +----------------------+
-        | Return Address (LR)  |  <-- SP (Contient l'adresse suivante aprés la fonction appelante)
-        +----------------------+
-        | Saved FP (if used)   |  <-- SP + 8
-        +----------------------+
-        | Argument 9+          |  <-- SP + 16
-        +----------------------+
-[/green]
-"""
+    # Add rows to the table
+    table.add_row("[bold blue]Instruction Pointer[/bold blue]", "Stored in [bold red]RIP[/bold red] before the call.")
+    table.add_row("[bold blue]Return Value[/bold blue]", "Stored in [bold red]RAX[/bold red] (primary) and [bold red]RDX[/bold red] (secondary if needed).")
+    table.add_row("[bold blue]Stack Frame Layout[/bold blue]", 
+                  "[bold red][RSP][/bold red] → Return address (saved [bold red]RIP[/bold red]).\n"
+                  "[bold red][RSP+8][/bold red] → Old [bold red]RBP[/bold red] (saved frame pointer).\n"
+                  "[bold red][RSP+16][/bold red] → First spilled argument (if needed).\n"
+                  "Stack must be 16-byte aligned before the call.\n"
+                  "Uses [bold red]RSP[/bold red] (stack pointer) and [bold red]RBP[/bold red] (frame pointer if used).")
+
+    # Create a table for the stack layout
+    stack_table = Table(show_header=False)
+    stack_table.add_column("Address", style="bold blue")
+    stack_table.add_column("Description", style="bold white")
+    stack_table.add_row("[bold red][RSP][/bold red]", "Return Address ([bold red]RIP[/bold red])")
+    stack_table.add_row("[bold red][RSP+8][/bold red]", "Old [bold red]RBP[/bold red] (frame ptr)")
+    stack_table.add_row("[bold red][RSP+16][/bold red]", "Argument 7+")
+
+    # Create a table for the argument passing
+    argument_table = Table(show_header=False)
+    argument_table.add_column("Register", style="bold blue")
+    argument_table.add_column("Description", style="bold white")
+    argument_table.add_row("[bold red]RDI[/bold red]", "1st argument")
+    argument_table.add_row("[bold red]RSI[/bold red]", "2nd argument")
+    argument_table.add_row("[bold red]RDX[/bold red]", "3rd argument")
+    argument_table.add_row("[bold red]RCX[/bold red]", "4th argument")
+    argument_table.add_row("[bold red]R8[/bold red]", "5th argument")
+    argument_table.add_row("[bold red]R9[/bold red]", "6th argument")
+    argument_table.add_row("[bold red]Stack[/bold red]", "Additional arguments (right-to-left)")
+
+    # Create panels for each table
+    calling_convention_panel = Panel(table, title="[bold blue]Calling Convention[/bold blue]", title_align="left", border_style="blue")
+    stack_layout_panel = Panel(stack_table, title="[bold blue]Stack Layout[/bold blue]", title_align="left", border_style="blue")
+    argument_passing_panel = Panel(argument_table, title="[bold blue]Argument Passing[/bold blue]", title_align="left", border_style="blue")
+
+    # Print the panels
+    console.print(calling_convention_panel)
+    console.print(argument_passing_panel)
+    console.print(stack_layout_panel)
