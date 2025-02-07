@@ -28,7 +28,7 @@ Pour installer ce projet, suivez les étapes ci-dessous :
 python3 binhelp.py  /path/to/your/binary
 ```
 
-Ce projet a été testé sur un environnement Linux Ubuntu 24.04 en VM et sur des binaires X86_32 et AMD64. Notez que nous n'avons pas effectué de revue de code approfondie, il est donc possible qu'il y ait des erreurs ou des incorrections dans les descriptions retournées.
+Ce projet a été testé sur un environnement Linux Ubuntu 24.04 en VM et sur des binaires X86_32 et AMD64. Notez que je n'ai pas effectué de revue de code approfondie, il est donc possible qu'il y ait des erreurs ou des incorrections dans les descriptions retournées.
 
 ## Fonctionnement Global 🌐
 
@@ -36,30 +36,37 @@ Ce script est conçu pour analyser et apporter les éléments nécessaires à l'
 
 - Effectue quelques vérifications et permet de désactiver l'ASLR si nécessaire :
 ex:
+
 ![alt text](attachments_readme/verifications.png)
 
 - Reconnaitre et afficher les conventions d'appels : 
-ex: 
+ex:
+
 ![alt text](attachments_readme/calling_convention.png)
 
 - Reconnaitre et afficher les descriptions des fonctions utilisées :
 ex:
+
 ![alt text](attachments_readme/identification_func.png)
 
 - Permet d'afficher les prototypes des fonctions avec quelques conseils (ça permet d'éviter de chercher dans la documentation à chaque fois ) :
-ex: 
+ex:
+
 ![alt text](attachments_readme/details_func.png)
 
 - Permet d'appliquer les régles Yara de votre choix (voir le paragraphe sur les régles Yara) :
 ex:
+
 ![alt text](attachments_readme/yara.png)
 
 - Permet de trier les strings du binaires avec l'utilisation et la réimplémentation de l'outil stringsifter de mandiant :
 ex:
+
 ![alt text](attachments_readme/strings.png)
 
 - Sauvegarde tous les résultat à la racine du projet dans un fichier html 'binhelp_export.html' :
 ex:
+
 ![alt text](attachments_readme/export.png)
 
 
