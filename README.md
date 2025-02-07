@@ -1,0 +1,86 @@
+# BinHelp README 📚
+
+## ⚠️ Avertissement
+
+⚠️ **Avertissement :** Ce script est destiné à être utilisé uniquement dans le cadre de CTF ou à des fins d'analyse de malware. N'utilisez pas ce script sur des binaires pour lesquels vous n'avez pas l'autorisation explicite de les analyser. Il est fortement recommandé d'analyser les binaires dans une machine virtuelle ou, au minimum, dans un conteneur Docker.
+
+## Installation 🛠️
+
+Pour installer ce projet, suivez les étapes ci-dessous :
+
+1. Assurez-vous d'avoir Python 3.12 installé sur votre machine.
+2. Créez un environnement virtuel Python :
+   ```bash
+   python3.12 -m venv .env
+   ```
+3. Activez l'environnement virtuel :
+   ```bash
+   source .env/bin/activate
+   ```
+4. Installez les dépendances nécessaires avec pip :
+   ```bash
+   pip3 install -r requirements.txt
+   ```
+
+## Fonctionnement Global 🌐
+
+Ce script est conçu pour analyser et apporter les éléments nécessaires à l'analyse d'un binaire :
+
+- Effectue quelques vérifications et permet de désactiver l'ASLR si nécessaire :
+ex:
+![alt text](attachments_readme/verifications.png)
+
+- Reconnaitre et afficher les conventions d'appels : 
+ex: 
+![alt text](attachments_readme/calling_convention.png)
+
+- Reconnaitre et afficher les descriptions des fonctions utilisées :
+ex:
+![alt text](attachments_readme/identification_func.png)
+
+- Permet d'afficher les prototypes des fonctions avec quelques conseils (ça permet d'éviter de chercher dans la documentation à chaque fois ) :
+ex: 
+![alt text](attachments_readme/details_func.png)
+
+- Permet d'appliquer les régles Yara de votre choix (voir le paragraphe sur les régles Yara) :
+ex:
+![alt text](attachments_readme/yara.png)
+
+- Permet de trier les strings du binaires avec l'utilisation et la réimplémentation de l'outil stringsifter de mandiant :
+ex:
+![alt text](attachments_readme/strings.png)
+
+- Sauvegarde tous les résultat à la racine du projet dans un fichier html 'binhelp_export.html' :
+ex:
+![alt text](attachments_readme/export.png)
+
+
+## Ajouter Vos Propres Règles YARA 📝
+
+Pour ajouter vos propres règles YARA, vous devez modifier le fichier `packages/parser_config.py`. Assurez-vous d'utiliser le format d'URL avec le raw. Voici un exemple :
+```python
+# parser_config.py
+yara_rules = [
+    "https://raw.githubusercontent.com/YOUR_REPO/YOUR_RULES_FILE.yar"
+]
+
+## Example d'Utilisation 🧪
+
+Pour utiliser ce script, exécutez simplement la commande suivante dans votre terminal :
+
+```bash
+python3 binhelp.py  /path/to/your/binary
+```
+
+Ce projet a été testé sur un environnement Linux Ubuntu 24.04 en VM et sur des binaires X86_32 et AMD64. Notez que nous n'avons pas effectué de revue de code approfondie, il est donc possible qu'il y ait des erreurs ou des incorrections dans les descriptions retournées.
+
+## License 📜
+
+Ce projet utilise les licences des dépôts suivants :
+
+- [Nom du dépôt 1](URL du dépôt 1)
+- [Nom du dépôt 2](URL du dépôt 2)
+
+---
+
+Tagarzh
