@@ -78,18 +78,15 @@ Pour ajouter vos propres règles YARA, vous devez modifier le fichier `packages/
 yara_rules = [
     "https://raw.githubusercontent.com/YOUR_REPO/YOUR_RULES_FILE.yar"
 ]
-
-## Example d'Utilisation 🧪
-
-Pour utiliser ce script, exécutez simplement la commande suivante dans votre terminal :
+```
 
 ## License 📜
 
 Ce projet utilise les licences des dépôts suivants :
 
-- [Nom du dépôt 1](URL du dépôt 1)
-- [Nom du dépôt 2](URL du dépôt 2)
+- [stringsifter]((https://github.com/mandiant/stringsifter))
+- [flare-floss]((https://github.com/mandiant/flare-floss))
 
 ---
 
-Tagarzh
+Tagarzh 
