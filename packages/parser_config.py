@@ -339,7 +339,7 @@ all_process_manipulation_functions = { #FAIT
 
 all_process_manipulation_functions_infos = { #FAIT
 
-    'nom_du_dictionnaire': '[color=red]Toutes les fonctions de manipulation de processus (+ prototypes, exemples et vulnérabilités)[/color]',
+    'nom_du_dictionnaire': '[color=red]Fonctions de manipulation de processus identifiées[/color]',
     
     'CreateRemoteThread': (
         '[color=blue][code]HANDLE CreateRemoteThread(HANDLE hProcess, LPSECURITY_ATTRIBUTES lpThreadAttributes, SIZE_T dwStackSize, LPTHREAD_START_ROUTINE lpStartAddress, LPVOID lpParameter, DWORD dwCreationFlags, LPDWORD lpThreadId);[/code][/color]\n'
@@ -768,8 +768,6 @@ all_network_functions = { #FAIT
     'socketpair': 'Crée une paire de sockets connectés (GLIBC, Linux)',
     'shutdown': 'Arrête une connexion (GLIBC, Linux)',
     'close': 'Ferme un socket (GLIBC, Linux)',
-    'read': 'Lit des données sur un socket (GLIBC, Linux)',
-    'write': 'Écrit des données sur un socket (GLIBC, Linux)',
     'sendmsg': 'Envoie des données sur un socket avec des options (GLIBC, Linux)',
     'recvmsg': 'Reçoit des données sur un socket avec des options (GLIBC, Linux)',
     'sendmmsg': 'Envoie plusieurs messages sur un socket (GLIBC, Linux)',
@@ -806,7 +804,7 @@ all_network_functions = { #FAIT
 }
 
 all_network_functions_infos = { # FAIT
-    'nom_du_dictionnaire': '[color=red]Toutes les fonctions réseau (+ prototypes, exemples et vulnérabilités)[/color]',
+    'nom_du_dictionnaire': '[color=red]Fonctions réseau identifiées[/color]',
     
     'socket': (
         '[color=blue][code]int socket(int domain, int type, int protocol);[/code][/color]\n'
@@ -1027,7 +1025,7 @@ all_windows_encryption_functions = {
     'CryptDuplicateHash': 'Duplique un objet de hachage'
 }
 all_windows_encryption_functions_infos = {
-    'nom_du_dictionnaire': '[color=red]Toutes les fonctions de cryptographie Windows (+ prototypes, exemples et vulnérabilités)[/color]',
+    'nom_du_dictionnaire': '[color=red]Fonctions de cryptographie Windows identifiées [/color]',
     
     'CryptAcquireContext': (
         '[color=blue][code]BOOL CryptAcquireContext(HCRYPTPROV *phProv, LPCTSTR szContainer, LPCTSTR szProvider, DWORD dwProvType, DWORD dwFlags);[/code][/color]\n'
@@ -1193,7 +1191,7 @@ all_debug_detection_functions = { #FAIT
 }
 
 all_debug_detection_functions_infos = {
-    'nom_du_dictionnaire': '[color=red]Toutes les fonctions de détection de débogueurs (+ prototypes, exemples et bypass)[/color]',
+    'nom_du_dictionnaire': '[color=red]Fonctions de détection de débogueurs identifiées[/color]',
     
     'IsDebuggerPresent': (
         '[color=blue][code]BOOL WINAPI IsDebuggerPresent(void);[/code][/color]\n'
@@ -1382,7 +1380,7 @@ all_memory_access_functions = { #FAIT
 }
 
 all_memory_access_functions_infos = {
-    'nom_du_dictionnaire': '[color=red]Toutes les fonctions d\'accès à la mémoire (+ prototypes, exemples et vulnérabilités)[/color]',
+    'nom_du_dictionnaire': '[color=red]Toutes les fonctions d\'accès à la mémoire identifiées[/color]',
     
     'malloc': (
         '[color=blue][code]void* malloc(size_t size);[/code][/color]\n'
@@ -1541,7 +1539,7 @@ all_random_number_generation_functions = { #FAIT
 }
 
 all_random_number_generation_functions_infos = {
-    'nom_du_dictionnaire': '[color=red]Toutes les fonctions de génération de nombres aléatoires (+ prototypes, exemples et vulnérabilités)[/color]',
+    'nom_du_dictionnaire': '[color=red]Fonctions de génération de nombres aléatoires identifiées[/color]',
     
     'rand': (
         '[color=blue][code]int rand(void);[/code][/color]\n'
@@ -2034,7 +2032,7 @@ all_type_conversion_functions = { #FAIT
 }
 
 all_type_conversion_functions_infos = {
-    'nom_du_dictionnaire': '[color=red]Fonctions de conversion de type (+ prototypes, exemples et vulnérabilités)[/color]',
+    'nom_du_dictionnaire': '[color=red]Fonctions de conversion de type identifiées[/color]',
     
     'atoi': (
         '[color=blue][code]int atoi(const char *str);[/code][/color]\n'
@@ -2159,7 +2157,7 @@ all_terminal_functions = {
     'FillConsoleOutputCharacter': 'Remplit une zone avec un caractère',
 }
 all_terminal_functions_infos = {
-    'nom_du_dictionnaire': '[color=red]Fonctions de terminal (+ prototypes, exemples et vulnérabilités)[/color]',
+    'nom_du_dictionnaire': '[color=red]Fonctions de terminal identifiées[/color]',
     
     'tcgetattr': (
         '[color=blue][code]int tcgetattr(int fd, struct termios *termios_p);[/code][/color]\n'

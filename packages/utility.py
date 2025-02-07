@@ -43,11 +43,11 @@ def display_strings(strings: List[StaticString], console: Console):
     :param strings: A list of StaticString objects.
     :type strings: List[StaticString]
     """
-    table = Table(title="Extracted Strings")
+    table = Table(title="[bold]Extracted Strings[/bold] 📝")
 
-    table.add_column("Strings", style="cyan")
-    table.add_column("Encoding", style="magenta")
-    table.add_column("Offset", style="green")
+    table.add_column("Strings", style="blue")
+    table.add_column("Encoding")
+    table.add_column("Offset", style="red")
 
     for s in strings:
         table.add_row(s.string, s.encoding.name, f"0x{s.offset:x}")
@@ -62,76 +62,66 @@ def display_strings_stringsifter(strings: List[StaticString],console):
     :type strings: List[StaticString]
     """
     
-    table = Table(title="Extracted Strings")
+    table = Table(title="[bold]Extracted Strings[/bold] 📝")
 
-    table.add_column("Strings", style="cyan")
-    table.add_column("Encoding", style="magenta")
-    table.add_column("Offset", style="green")
 
     featurizer = Featurizer()
 
     
     features = [
-        ('has_ip', 'IP Address'),
-        ('has_ip_srv', 'IP Server'),
-        ('has_url', 'URL'),
-        ('has_email', 'Email Address'),
-        ('has_fqdn', 'FQDN'),
-        ('has_namespace', 'Namespace'),
-        ('has_msword_version', 'MS Word Version'),
-        ('has_packer', 'Packer'),
-        ('has_crypto_related', 'Crypto Related'),
-        ('has_privilege_constant', 'Privilege Constant'),
-        ('has_mozilla_api', 'Mozilla API'),
-        ('is_strict_fqdn', 'Strict FQDN'),
-        ('has_hive_name', 'Hive Name'),
-        ('is_mac', 'MAC Address'),
-        ('has_extension', 'Extension'),
-        ('is_md5', 'MD5'),
-        ('is_sha1', 'SHA1'),
-        ('is_sha256', 'SHA256'),
-        ('has_guid', 'GUID'),
-        ('is_antivirus', 'Antivirus'),
-        ('is_common_dll', 'Common DLL'),
-        ('is_boost_lib', 'Boost Library'),
-        ('is_delphi_lib', 'Delphi Library'),
-        ('has_event', 'Event'),
-        ('is_registry', 'Registry'),
-        ('has_malware_identifier', 'Malware Identifier'),
-        ('has_sid', 'SID'),
-        ('has_keylogger', 'Keylogger'),
-        ('has_oid', 'OID'),
-        ('has_product_id', 'Product ID'),
-        ('is_oss', 'OSS'),
-        ('is_user_agent', 'User Agent'),
-        ('has_sddl', 'SDDL'),
-        ('has_protocol', 'Protocol'),
-        ('is_protocol_method', 'Protocol Method'),
-        ('is_base64', 'Base64'),
-        ('is_hex_not_numeric_not_alpha', 'Hex Not Numeric Not Alpha'),
-        ('has_format_specifier', 'Format Specifier'),
-        ('ends_with_line_feed', 'Ends with Line Feed'),
-        ('has_path', 'Path'),
-        ('has_pdb', 'PDB'),
-        ('has_privilege', 'Privilege'),
-        ('is_cpp_runtime', 'C++ Runtime'),
-        ('is_library', 'Library'),
-        ('is_date', 'Date'),
-        ('is_pe_artifact', 'PE Artifact'),
-        ('has_public_key', 'Public Key'),
-        ('is_code_page', 'Code Page'),
-        ('is_language', 'Language'),
-        ('is_region_tag', 'Region Tag'),
-        ('has_not_latin', 'Not Latin'),
-        ('is_malware_api', 'Malware API'),
-        ('is_environment_variable', 'Environment Variable'),
-        ('has_variable_name', 'Variable Name'),
+        ('has_ip', '[bold]IP Address[/bold] 🌐'),
+        ('has_ip_srv', '[bold]IP Server[/bold] 🖥️'),
+        ('has_url', '[bold]URL[/bold] 🔗'),
+        ('has_email', '[bold]Email Address[/bold] 📧'),
+        ('has_fqdn', '[bold]FQDN[/bold] 🌍'),
+        ('has_namespace', '[bold]Namespace[/bold] 📂'),
+        ('has_msword_version', '[bold]MS Word Version[/bold] 📄'),
+        ('has_packer', '[bold]Packer[/bold] 📦'),
+        ('has_crypto_related', '[bold]Crypto Related[/bold] 🔒'),
+        ('has_privilege_constant', '[bold]Privilege Constant[/bold] 🔑'),
+        ('has_mozilla_api', '[bold]Mozilla API[/bold] 🦊'),
+        ('is_strict_fqdn', '[bold]Strict FQDN[/bold] 🌐'),
+        ('has_hive_name', '[bold]Hive Name[/bold] 🐝'),
+        ('is_mac', '[bold]MAC Address[/bold] 💻'),
+        ('has_extension', '[bold]Extension[/bold] 📎'),
+        ('is_md5', '[bold]MD5[/bold] 🔑'),
+        ('is_sha1', '[bold]SHA1[/bold] 🔑'),
+        ('is_sha256', '[bold]SHA256[/bold] 🔑'),
+        ('has_guid', '[bold]GUID[/bold] 🆔'),
+        ('is_antivirus', '[bold]Antivirus[/bold] 🛡️'),
+        ('has_event', '[bold]Event[/bold] 📅'),
+        ('is_registry', '[bold]Registry[/bold] 🗄️'),
+        ('has_malware_identifier', '[bold]Malware Identifier[/bold] 🐛'),
+        ('has_sid', '[bold]SID[/bold] 🆔'),
+        ('has_keylogger', '[bold]Keylogger[/bold] ⌨️'),
+        ('has_oid', '[bold]OID[/bold] 🆔'),
+        ('has_product_id', '[bold]Product ID[/bold] 🆔'),
+        ('is_oss', '[bold]OSS[/bold] 🖥️'),
+        ('is_user_agent', '[bold]User Agent[/bold] 🕵️'),
+        ('has_sddl', '[bold]SDDL[/bold] 📜'),
+        ('has_protocol', '[bold]Protocol[/bold] 📡'),
+        ('is_protocol_method', '[bold]Protocol Method[/bold] 📡'),
+        ('is_base64', '[bold]Base64[/bold] 🔢'),
+        ('is_hex_not_numeric_not_alpha', '[bold]Hex Not Numeric Not Alpha[/bold] 🔢'),
+        ('has_format_specifier', '[bold]Format Specifier[/bold] 🔤'),
+        ('ends_with_line_feed', '[bold]Ends with Line Feed[/bold] ↩️'),
+        ('has_path', '[bold]Path[/bold] 📁'),
+        ('has_pdb', '[bold]PDB[/bold] 📄'),
+        ('has_privilege', '[bold]Privilege[/bold] 🔑'),
+        ('is_date', '[bold]Date[/bold] 📅'),
+        ('has_public_key', '[bold]Public Key[/bold] 🔑'),
+        ('is_code_page', '[bold]Code Page[/bold] 📄'),
+        ('is_language', '[bold]Language[/bold] 🈯'),
+        ('is_region_tag', '[bold]Region Tag[/bold] 🏳️'),
+        ('has_not_latin', '[bold]Not Latin[/bold] 🌐'),
+        ('is_malware_api', '[bold]Malware API[/bold] 🐛'),
+        ('has_variable_name', '[bold]Variable Name[/bold] 🔤'),
     ]
 
     for feature, description in features:
         table = Table()
         table.add_column("String", style="blue")
-        table.add_column("Encoding", style="white")
+        table.add_column("Encoding")
         table.add_column("Offset", style="red")
 
         for s in strings:
@@ -275,7 +265,7 @@ def check_vm():
     """
     return any(term in open('/proc/cpuinfo').read() for term in ['hypervisor', 'vmware', 'virtualbox'])
 
-def check_aslr():
+def check_aslr(console):
     """
     Checks the status of Address Space Layout Randomization (ASLR) on the system.
 
@@ -293,24 +283,32 @@ def check_aslr():
             aslr_status = f.read().strip()
         
         if aslr_status == '0':
-            user_input = input("L'ASLR est désactivé. Voulez-vous l'activer ? (y/n) : ")
+            user_input = console.input("\n❓[bold] L'ASLR est désactivé. Voulez-vous l'activer ? (y/n) : [/bold]")
+            console.print("\n")
             if user_input.lower() == 'y' or user_input.lower() == '':
                 if os.system('echo 2 | sudo tee /proc/sys/kernel/randomize_va_space > /dev/null') == 0:
-                    print("ASLR activé avec succès ✅")
+     
+                    console.print("\nASLR activé avec succès ✅\n")
+                    console.print("\n")
                     return True
                 
                 else:
-                    print("Échec de l'activation de l'ASLR ❌")
+                   
+                    console.print("Échec de l'activation de l'ASLR ❌\n")
+                    console.print("\n")
                     return True
         else:
-            user_input = input("L'ASLR est activé. Voulez-vous le désactiver ? (y/n) : ")
+            user_input = console.input("\n❓[bold] L'ASLR est activé. Voulez-vous le désactiver ? (y/n) : [/bold]")
             if user_input.lower() == 'y' or user_input.lower() == '':
                 if os.system('echo 0 | sudo tee /proc/sys/kernel/randomize_va_space > /dev/null') == 0:
-                    print("ASLR désactivé avec succès ✅")
-                   
+                 
+                    console.print("\nASLR désactivé avec succès ✅\n")
+                    console.print("\n")
                     return False
                 else:
-                    print("Échec de la désactivation de l'ASLR ❌")
+                    
+                    console.print("Échec de la désactivation de l'ASLR ❌\n")
+                    console.print("\n")
                     return True
     
     
@@ -351,15 +349,15 @@ def print_user_info(console, internet_connection, vm_check, aslr_check, os_info)
         None
     """
     from rich.panel import Panel
-    internet_status = "Connexion Internet active : [bold red]Oui[/bold red] :warning:" if internet_connection else "Connexion Internet active : [bold green]Non[/bold green] :white_check_mark:"
-    vm_status = "Exécution dans une VM : [bold red]Oui[/bold red] :warning:" if vm_check else "Exécution dans une VM : [bold green]Non[/bold green] :white_check_mark:"
-    aslr_status = "ASLR désactivé : [bold red]Oui[/bold red] :warning:" if not aslr_check else "ASLR désactivé : [bold green]Non[/bold green] :white_check_mark:"
+    internet_status = "[bold]Connexion Internet active[/bold] : [bold red]Oui[/bold red] :warning:" if internet_connection else "[bold]Connexion Internet active[/bold]: [bold green]Non[/bold green] :white_check_mark:"
+    vm_status = "[bold]Exécution dans une VM [/bold]: [bold red]Oui[/bold red] :warning:" if vm_check else "[bold]Exécution dans une VM [/bold] : [bold green]Non[/bold green] :white_check_mark:"
+    aslr_status = "[bold]ASLR désactivée [/bold]: [bold red]Oui[/bold red] :warning:" if not aslr_check else "[bold]ASLR désactivé [/bold] : [bold green]Non[/bold green] :white_check_mark:"
     system_info_panel = Panel(
         f"[bold red][-] Système d'exploitation :[/bold red] [blue]{os_info.sysname} {os_info.release}[/blue]\n"
         f"{internet_status}\n"
         f"{vm_status}\n"
         f"{aslr_status}",
-        title="Informations Système", subtitle="Détails", expand=False, border_style="bold blue"
+        title="Informations Système", expand=False, border_style="bold blue"
     )
     console.print(system_info_panel)
 
@@ -397,7 +395,7 @@ def save_to_html(content, filename="binhelp_export.html"):
     with open(filename, "w") as f:
         f.write(content)
 
-def find_yara_matches(console,yara_file, file):
+def find_yara_matches(console,yara_file, file,local_rule):
     """
     Finds and prints matches of a YARA rule in a given file.
     Args:
@@ -413,13 +411,16 @@ def find_yara_matches(console,yara_file, file):
     rules = yara.compile(filepath=yara_file)
     matches = rules.match(file)
     
-    table = Table(show_header=True, header_style="bold white")
-    table.add_column("Match", style="green")
+    for match in matches:
+        table = Table(show_header=True, header_style="bold")
+        table.add_column("Match", style="green")
+        table.add_row(str(match))
+        panel = Panel(table, title=f"{local_rule}", border_style="bold blue")
+        console.print(panel)
 
-    if matches:
-        for match in matches:
-            table.add_row(str(match))
-    else:
+    if not matches:
+        table = Table(show_header=True, header_style="bold")
+        table.add_column("Match", style="green")
         table.add_row("[red]Pas de match[/red]")
-
-    console.print(table)
+        panel = Panel(table, title=f"{local_rule}", border_style="bold blue")
+        console.print(panel)

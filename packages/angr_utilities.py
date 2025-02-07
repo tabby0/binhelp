@@ -20,12 +20,15 @@ def extract_strings(proj):
 
 def analyze_functions(cfg,console, functions_dict):
     from rich.table import Table
+    from rich.panel import Panel
+    from rich.console import Console
     import yara
+
     function_name = functions_dict['nom_du_dictionnaire']
-    table = Table(title=f"Fonctions trouvées : {function_name}", show_header=True, header_style="bold yellow") 
-    table.add_column("Nom de la fonction", style="cyan")
-    table.add_column("Description", style="bold yellow")
-    table.add_column("Adresse", style="green")
+    table = Table(show_header=True, header_style="bold white") 
+    table.add_column("Nom de la fonction", style="bold blue")
+    table.add_column("Description", style="bold")
+    table.add_column("Adresse", style="bold red")
 
     for func_addr, func in cfg.functions.items():
         if func.name in functions_dict:
@@ -34,5 +37,7 @@ def analyze_functions(cfg,console, functions_dict):
             table.add_row("", "", "") 
 
     if table.row_count > 0:
-        console.print(table)
+        console.print('\n')
+        panel = Panel(table, title=function_name, border_style="bold blue")
+        console.print(panel)
         console.print('\n')
