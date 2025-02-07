@@ -26,31 +26,7 @@ from rich.text import Text
 #install flare-floss
 # isntall setuptools
 
-
-
 console = Console(record=True)
-
-""" def print_calling_convention(arch_name):
-
-    if arch_name == "X86":
-        user_input = input("Voulez-vous utiliser fastcall, cdecl ou stdcall ? (f/c/s): ").strip().lower()
-        if user_input == 'f':
-            console.print(Panel(f"{fastcall_calling_convention}", title="fastcall Calling Convention", subtitle="Details", expand=False))
-        elif user_input == 'c':
-            console.print(Panel(f"{cdecl_calling_convention}", title="cdecl Calling Convention", subtitle="Details", expand=False))
-        elif user_input == 's':
-            console.print(Panel(f"{stdcall_calling_convention}", title="stdcall Calling Convention", subtitle="Details", expand=False))
-        else:
-            print("Option non reconnue.")
-    elif arch_name == "AMD64":
-        console.print(Panel(f"{amd64_calling_convention}", title="AMD64 Calling Convention", subtitle="Details", expand=False))
-    elif arch_name == "AARCH64":
-        console.print(Panel(f"{arm64_calling_convention}", title="AARCH64 Calling Convention", subtitle="Details", expand=False))
-    elif arch_name == "ARMEL":
-        console.print(Panel(f"{arm32_calling_convention}", title="ARM Calling Convention", subtitle="Details", expand=False))
-    else:
-        print("Architecture non supportée, vous pouvez faire une issue pour demander le support.")
- """
 
 def main():
     
@@ -148,7 +124,8 @@ def main():
     sha256sum = sha256_file(proj.loader._main_binary_path)
     is_stack_executable = proj.loader.main_object.execstack
     is_position_independent = proj.loader.main_object.pic
-    binary_strings = extract_strings(proj)
+    #binary_strings = extract_strings(proj)
+    binary_strings = extract_ascii_unicode_strings(file_path)
 
     ### AFFICHAGE DES DONNEES ANALYSEES AVEC ANGR ###
     console.print(Panel(f"[bold red][-] Architecture:[/bold red] [blue]{arch}[/blue]\n"
@@ -257,31 +234,17 @@ def main():
         console.print(f"Extracted {len(floss_strings)} strings using FLOSS.")
         binary_strings.extend(floss_strings)
 
-    regex_matches = find_regex_matches(binary_strings, regex_dic)
-    for label, matched_strings in regex_matches.items():
-        table = Table(title=f"[bold white]{label} (possiblement) [/bold white]", show_header=True, header_style="bold white")
-        table.add_column("Correspondances", style="bold white")
-        for matched_string in matched_strings:
-            colored_string = Text(matched_string, style="bold green")
-            table.add_row(colored_string)
-        if table.row_count > 0:
-            console.print(table)
-            console.print('\n')
-        else:
-            console.print('Aucune correspondance trouvée.\n')
-
-
+    #display_strings(binary_strings, console)
+    display_strings_stringsifter(binary_strings, console)
+    user_input = input("Voulez-vous afficher toutes les chaînes du binaire (déconseillé car trop verbeux) ? (y/n): ").strip().lower()
+    if user_input == 'y' or user_input == '':
+        banner_text = Text("Affichage de toutes les strings du binaire", justify="center", style="bold black on white")
+        banner_panel = Panel(banner_text, expand=False, border_style="bold blue")
+        console.print(banner_panel)
+        display_strings( binary_strings,console)
     # Reactivate ASLR if it was disabled
-    if not check_aslr():
-        user_input = input("L'ASLR est désactivé. Voulez-vous le réactiver ? (y/n): ").strip().lower()
-        if user_input == 'y' or user_input == '':
-            try:
-                set_aslr(2)
-                console.print("[bold green]L'ASLR a été réactivé avec succès.[/bold green]")
-            except Exception as e:
-                console.print(f"[bold red]Erreur lors de la réactivation de l'ASLR: {e}[/bold red]")
-        else:
-            console.print("[bold yellow]L'ASLR reste désactivé.[/bold yellow]")
+
+    check_aslr()
     html_content += console.export_html(inline_styles=True)
     save_to_html(html_content)
 

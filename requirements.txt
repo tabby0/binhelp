@@ -1,3 +1,6 @@
 angr
 requests
 yara-python
+flare-floss
+scikit-learn
+fasttext

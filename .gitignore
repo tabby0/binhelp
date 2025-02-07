@@ -1,6 +1,6 @@
 # Ignore the .yara_rules directory
 .yara_rules/
-
+test/
 # Ignore common binary file types
 *.exe
 *.dll
