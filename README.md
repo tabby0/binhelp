@@ -22,6 +22,14 @@ Pour installer ce projet, suivez les étapes ci-dessous :
    pip3 install -r requirements.txt
    ```
 
+## Utilisation
+
+```bash
+python3 binhelp.py  /path/to/your/binary
+```
+
+Ce projet a été testé sur un environnement Linux Ubuntu 24.04 en VM et sur des binaires X86_32 et AMD64. Notez que nous n'avons pas effectué de revue de code approfondie, il est donc possible qu'il y ait des erreurs ou des incorrections dans les descriptions retournées.
+
 ## Fonctionnement Global 🌐
 
 Ce script est conçu pour analyser et apporter les éléments nécessaires à l'analyse d'un binaire :
@@ -67,12 +75,6 @@ yara_rules = [
 ## Example d'Utilisation 🧪
 
 Pour utiliser ce script, exécutez simplement la commande suivante dans votre terminal :
-
-```bash
-python3 binhelp.py  /path/to/your/binary
-```
-
-Ce projet a été testé sur un environnement Linux Ubuntu 24.04 en VM et sur des binaires X86_32 et AMD64. Notez que nous n'avons pas effectué de revue de code approfondie, il est donc possible qu'il y ait des erreurs ou des incorrections dans les descriptions retournées.
 
 ## License 📜
 
