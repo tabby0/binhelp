@@ -28,6 +28,9 @@ from rich.text import Text
 console = Console(record=True)
 
 def main():
+
+    # Add impash to the script
+    # add vt API
     # Ajouter le flag dans les regex
     # forcer l'affichage d'une architecture
     # rajouter une fonctionnalitée pour voir l'équivalent des fonction en python
@@ -106,6 +109,7 @@ def main():
     max_load_addr = hex(proj.loader.max_addr)
     shared_libraries = proj.loader.shared_objects
     sha256sum = sha256_file(proj.loader._main_binary_path)
+    imphash = compute_imphash(file_path)
     is_stack_executable = proj.loader.main_object.execstack
     is_position_independent = proj.loader.main_object.pic
     binary_strings = extract_ascii_unicode_strings(file_path)
@@ -119,6 +123,7 @@ def main():
                         f"[bold red][-] Adresse de chargement maximale:[/bold red] [bold]{max_load_addr}[/bold]\n"
                         f"[bold red][-] Bibliothèques partagées:[/bold red] [bold]{shared_libraries}[/bold]\n"
                         f"[bold red][-] SHA-256:[/bold red] [bold green]{sha256sum}[/bold green]\n"
+                        f"[bold red][-] Imphash:[/bold red] [bold green]{imphash}[/bold green]\n"
                         f"[bold red][-] Pile exécutable:[/bold red] [bold red]{is_stack_executable}[/bold red]\n"
                         f"[bold red][-] Position indépendante:[/bold red] [bold red]{is_position_independent}[/bold red]",
                         title="Binary Information", expand=False, border_style="bold blue"))
@@ -195,17 +200,10 @@ def main():
         
         else:
                 console.print("[bold red]Pas de connexion Internet détectée. Exécution uniquement des règles locales.[/bold red]")
-
-    banner_text = Text("Affichage des strings identifiées par une réimplémentation de stringsifter (Merci Mandiant 💎)", justify="center", style="bold black on white")
-    banner_panel = Panel(banner_text, expand=False, border_style="bold yellow")
-    console.print(banner_panel,justify="center")
-    console.print("\n[bold]💡Note: Vous pouvez également utiliser les commandes strings ou floss en association avec grep. 🔍\n [/bold]", justify="center")
-    
-
     # Utiliser floss pour extraire les chaînes si le binaire est un exécutable Windows
     if proj.loader.main_object.os == 'windows':
         
-        banner_text = Text("\nBinaire Windows 🪟 détecté. Utilisation de FLOSS de Mandiant pour extraire les chaînes de la stack.", justify="center", style="bold black on white")
+        banner_text = Text("Binaire Windows 🪟 détecté. Utilisation de FLOSS de Mandiant pour extraire les chaînes de la stack.", justify="center", style="bold black on white")
         banner_panel = Panel(banner_text, expand=False, border_style="bold yellow")
         console.print(banner_panel,justify="center")
         try:
@@ -214,9 +212,12 @@ def main():
         except Exception as e:
             print(f"Erreur lors de la création du CFG: {e}")
             return
-        floss_strings = extract_strings_with_floss(file_path)
-        console.print(f"Extracted {len(floss_strings)} strings using FLOSS.")
-        binary_strings.extend(floss_strings)
+        extract_strings_with_floss(file_path,console)
+        
+    banner_text = Text("Affichage des strings identifiées par une réimplémentation de stringsifter (Merci Mandiant 💎)", justify="center", style="bold black on white")
+    banner_panel = Panel(banner_text, expand=False, border_style="bold yellow")
+    console.print(banner_panel,justify="center")
+    console.print("\n[bold]💡Note: Vous pouvez également utiliser les commandes strings ou floss en association avec grep. 🔍\n [/bold]", justify="center")
 
 
     display_strings_stringsifter(binary_strings, console)

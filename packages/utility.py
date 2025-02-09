@@ -213,10 +213,42 @@ def extract_ascii_unicode_strings(binary_path, n=MIN_LENGTH) -> List[StaticStrin
     # Extract strings from the buffer
     return list(chain(extract_ascii_strings(buf, n), extract_unicode_strings(buf, n)))
 
-def extract_strings_with_floss(file_path):
+
+def extract_strings_with_floss(file_path, console):
     import subprocess
-    result = subprocess.run(['floss', file_path], capture_output=True, text=True)
-    return [line.encode('ascii', errors='ignore') for line in result.stdout.splitlines()]
+    result = subprocess.run(['floss', '--only', 'stack', 'tight', 'decoded', '--', file_path], capture_output=True, text=True, check=True)
+    output = result.stdout.splitlines()
+    
+    # Filter out empty lines and create sections for different string types
+    sections = {
+        "FLOSS STACK STRINGS": [],
+        "FLOSS TIGHT STRINGS": [],
+        "FLOSS DECODED STRINGS": []
+    }
+    current_section = None
+
+    for line in output:
+        if "FLOSS STACK STRINGS" in line:
+            current_section = "FLOSS STACK STRINGS"
+        elif "FLOSS TIGHT STRINGS" in line:
+            current_section = "FLOSS TIGHT STRINGS"
+        elif "FLOSS DECODED STRINGS" in line:
+            current_section = "FLOSS DECODED STRINGS"
+        elif current_section and line.strip():
+            sections[current_section].append(line.strip())
+
+    # Create panels for each section
+    panels = []
+    for title, strings in sections.items():
+        if strings:
+            panel = Panel("\n".join(strings), title=title, border_style="bold blue")
+            panels.append(panel)
+
+    # Display all panels
+    for panel in panels:
+        console.print(panel)
+    console.print(panel)
+    return output
 
 def download_file(url, local_filename):
     """
@@ -299,6 +331,7 @@ def check_aslr(console):
                     return True
         else:
             user_input = console.input("\n❓[bold] L'ASLR est activé. Voulez-vous le désactiver ? (y/n) : [/bold]")
+            console.print("\n")
             if user_input.lower() == 'y' or user_input.lower() == '':
                 if os.system('echo 0 | sudo tee /proc/sys/kernel/randomize_va_space > /dev/null') == 0:
                  
@@ -407,7 +440,7 @@ def find_yara_matches(console,yara_file, file,local_rule):
     """
     import yara
     from rich.table import Table
-    import os
+
     rules = yara.compile(filepath=yara_file)
     matches = rules.match(file)
     
@@ -424,3 +457,20 @@ def find_yara_matches(console,yara_file, file,local_rule):
         table.add_row("[red]Pas de match[/red]")
         panel = Panel(table, title=f"{local_rule}", border_style="bold blue")
         console.print(panel)
+
+def compute_imphash(binary_path):
+    import pefile
+    import subprocess
+    """
+    Compute the Import Hash (Imphash) of the given binary file.
+
+    :param binary_path: The path to the binary file.
+    :type binary_path: str
+    :return: The computed Imphash value.
+    :rtype: str
+    """
+    try:
+        pe = pefile.PE(binary_path)
+        return pe.get_imphash()
+    except Exception:
+        return "Neant"

@@ -10,8 +10,9 @@ def display_calling_convention(console, arch_name):
     elif arch_name == "X86":
         display_x86_global_calling_convention(console)
         console.print("\nVeuillez lire attentivement la section [bold blue]Detection Methods[/bold blue] et comparer en vue désassemblée ou en débugant.\n")
-        
+        display_detection_method(console)
         while True:
+            
             console.print("Choisissez la convention d'appel :")
             console.print("[bold blue]0[/bold blue] - Passer")
             console.print("[bold blue]1[/bold blue] - cdecl")
@@ -51,6 +52,19 @@ def display_calling_convention(console, arch_name):
         display_motorola_68000_calling_convention(console)
     else:
         console.print(f"Unsupported architecture: {arch_name}")
+
+def display_detection_method(console):
+    table = Table(show_header=True, header_style="bold")
+    table.add_column("Convention", style="bold")
+    table.add_column("Detection Method", style="bold")
+
+    table.add_row("[bold blue]cdecl[/bold blue]", "Caller cleans the stack")
+    table.add_row("[bold blue]stdcall[/bold blue]", "Callee cleans the stack")
+    table.add_row("[bold blue]fastcall[/bold blue]", "First two arguments in ECX and EDX, rest on stack")
+    table.add_row("[bold blue]thiscall[/bold blue]", "First argument (this pointer) in ECX, rest on stack")
+
+    detection_panel = Panel(table, title="[bold blue]Detection Methods[/bold blue]", title_align="left", border_style="blue")
+    console.print(detection_panel)
 
 def display_x86_global_calling_convention(console):
     table = Table(show_header=True, header_style="bold")

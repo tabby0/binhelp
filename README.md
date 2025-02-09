@@ -32,7 +32,7 @@ Ce projet a été testé sur un environnement Linux Ubuntu 24.04 en VM et sur de
 
 ## Fonctionnement Global 🌐
 
-Ce script est conçu pour analyser et apporter les éléments nécessaires à l'analyse d'un binaire :
+Ce script est conçu pour apporter, rapidement, les éléments nécessaires à l'analyse d'un binaire :
 
 - Effectue quelques vérifications et permet de désactiver l'ASLR si nécessaire :
 ex:
@@ -62,6 +62,10 @@ ex:
 ex:
 
 ![alt text](attachments_readme/yara.png)
+
+- Utilise Flos sur les PE afin d'extraire les stack strings :
+
+![alt text](attachments_readme/floss_strings.png)
 
 - Permet de trier les strings du binaires avec l'utilisation et la réimplémentation de l'outil stringsifter de mandiant :
 ex:
