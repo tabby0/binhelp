@@ -26,6 +26,16 @@ Pour installer ce projet, suivez les étapes ci-dessous :
 
 ```bash
 python3 binhelp.py  /path/to/your/binary
+
+Usage: binhelp.py [OPTIONS] BINARY
+
+Options:
+  -f, --full          Exécuter toutes les analyses.
+  -y, --yara          Exécuter uniquement l'analyse YARA.
+  -c, --calling TEXT  Exécuter l'analyse des conventions d'appel et des
+                      instructions pour une architecture donnée.
+  -s, --strings       Exécuter toutes les analyses liées aux chaînes.
+  --help              Show this message and exit.
 ```
 
 Ce projet a été testé sur un environnement Linux Ubuntu 24.04 en VM et sur des binaires X86_32 et AMD64. Notez que je n'ai pas effectué de revue de code approfondie, il est donc possible qu'il y ait des erreurs ou des incorrections dans les descriptions retournées.

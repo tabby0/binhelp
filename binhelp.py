@@ -211,7 +211,7 @@ def main():
     @click.argument('binary')
     @click.option('-f', '--full', is_flag=True, default=False, help='Exécuter toutes les analyses.')
     @click.option('-y', '--yara', is_flag=True, help='Exécuter uniquement l\'analyse YARA.')
-    @click.option('-c', '--calling', type=str, help='Exécuter l\'analyse des conventions d\'appel et des instructions pour une architecture donnée.')
+    @click.option('-c', '--calling', type=str, help='Affiche la calling convention et le set d\'instruction pour une architecture donnée.(Disponibles : AMD64, X86, X86_64, ARMEL, AARCH64, MIPS32, MIPS64,  MOTOROLA68000')
     @click.option('-s', '--strings', is_flag=True, help='Exécuter toutes les analyses liées aux chaînes.')
 
     def run_analysis(binary, full, yara, calling, strings):
