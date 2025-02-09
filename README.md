@@ -39,6 +39,10 @@ ex:
 
 ![alt text](attachments_readme/verifications.png)
 
+- Permet également de retourner le score virus total (en beta) pour ajouter la clé API voir le paragraphe virus total :
+
+![alt text](attachments_readme/virus-total.png)
+
 - Reconnaitre et afficher les conventions d'appels : 
 ex:
 
@@ -77,7 +81,6 @@ ex:
 
 ![alt text](attachments_readme/export.png)
 
-
 ## Ajouter Vos Propres Règles YARA 📝
 
 Pour ajouter vos propres règles YARA, vous devez modifier le fichier `packages/parser_config.py`. Assurez-vous d'utiliser le format d'URL avec le raw. Voici un exemple :
@@ -86,6 +89,15 @@ Pour ajouter vos propres règles YARA, vous devez modifier le fichier `packages/
 yara_rules = [
     "https://raw.githubusercontent.com/YOUR_REPO/YOUR_RULES_FILE.yar"
 ]
+```
+## Virus total
+
+- Pour virus total, vous devez renseigner votre clé api dans un fichier **config.json** que vous créerez à la racine :
+
+```
+{
+    "vt-api": "YOUR API KEY"
+}
 ```
 
 ## License 📜

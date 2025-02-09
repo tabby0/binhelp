@@ -18,3 +18,4 @@ miasm_strings.py
 __pycache__
 .env/
 .venv/
+config.json

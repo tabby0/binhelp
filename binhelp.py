@@ -13,6 +13,7 @@ from packages.crypto_hash import sha256_file
 from packages.angr_utilities import *
 from packages.calling_convention import *
 from packages.instructions_set import *
+from packages.virus_total import *
 
 import angr
 import os
@@ -113,6 +114,7 @@ def main():
     is_stack_executable = proj.loader.main_object.execstack
     is_position_independent = proj.loader.main_object.pic
     binary_strings = extract_ascii_unicode_strings(file_path)
+    vt_score = get_virus_total_score(sha256sum)
 
     ### AFFICHAGE DES DONNEES ANALYSEES AVEC ANGR ###
     console.print(Panel(f"[bold red][-] Architecture:[/bold red] [blue]{arch}[/blue]\n"
@@ -124,8 +126,9 @@ def main():
                         f"[bold red][-] Bibliothèques partagées:[/bold red] [bold]{shared_libraries}[/bold]\n"
                         f"[bold red][-] SHA-256:[/bold red] [bold green]{sha256sum}[/bold green]\n"
                         f"[bold red][-] Imphash:[/bold red] [bold green]{imphash}[/bold green]\n"
-                        f"[bold red][-] Pile exécutable:[/bold red] [bold red]{is_stack_executable}[/bold red]\n"
-                        f"[bold red][-] Position indépendante:[/bold red] [bold red]{is_position_independent}[/bold red]",
+                        f"[bold red][-] Pile exécutable:[/bold red] [bold]{is_stack_executable}[/bold]\n"
+                        f"[bold red][-] Position indépendante:[/bold red] [bold]{is_position_independent}[/bold]\n"
+                        f"[bold red][-] Score virus total (sha256) :[/bold red] [bold yellow]{vt_score}[/bold yellow] 🛡️",
                         title="Binary Information", expand=False, border_style="bold blue"))
 
     banner_text = Text(f"Calling convention possible pour {arch}", justify="center", style="bold black on white")
