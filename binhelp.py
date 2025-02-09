@@ -12,6 +12,7 @@ from packages.utility import *
 from packages.crypto_hash import sha256_file
 from packages.angr_utilities import *
 from packages.calling_convention import *
+from packages.instructions_set import *
 
 import angr
 import os
@@ -27,7 +28,8 @@ from rich.text import Text
 console = Console(record=True)
 
 def main():
-    
+    # Ajouter le flag dans les regex
+    # forcer l'affichage d'une architecture
     # rajouter une fonctionnalitée pour voir l'équivalent des fonction en python
     # Ajouter une license pour tout tes scripts
     # checker si tu as cette implémentation dans ton script en python
@@ -72,21 +74,6 @@ def main():
         all_terminal_functions_infos
     ]
 
-    regex_dic = {
-        'Adresses IP': re.compile(r'\b(?:(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\.){3}(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\b'),
-        'Noms de domaine': re.compile(r'\b(?:[a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}\b'),
-        'Chemins de fichiers': re.compile(r'(?:[a-zA-Z]:\\|\\\\[^\\]+\\|/)(?:[^\\/:*?"<>|\r\n]+[\\/])*[^\\/:*?"<>|\r\n]*'),
-        'Hachages SHA-1': re.compile(r'\b[a-fA-F0-9]{40}\b'),
-        'Hachages SHA-256': re.compile(r'\b[a-fA-F0-9]{64}\b'),
-        'Hachages MD5': re.compile(r'\b[a-fA-F0-9]{32}\b'),
-        'Hachages SHA-512': re.compile(r'\b[a-fA-F0-9]{128}\b'),
-        'Hachages bcrypt': re.compile(r'\$2[aby]\$\d{2}\$[./A-Za-z0-9]{53}'),
-        'Hachages SHA-3-256': re.compile(r'\b[a-fA-F0-9]{64}\b'),
-        'Hachages SHA-3-512': re.compile(r'\b[a-fA-F0-9]{128}\b'),
-        'Adresses email': re.compile(r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'),
-        'Flag': re.compile(r'\b[A-Za-z0-9]+\{[^}]+\}'),
-        'Noms de fichiers': re.compile(r'\b\w+\.(?:bin|exe|ps1|batch|sh|pdf|docx|zip|tar|tar\.gz|7z|rar|gz|png|jpg|jpeg|txt|log|iso|dmg|pkg|deb|rpm|apk|msi|py|js|html|css|json|xml|sql|db|bak|conf|ini|yml|yaml|md)\b', re.IGNORECASE),
-    }
 
     ### HELPER BANNER ###
     parser = argparse.ArgumentParser(description="Script de pré-analyze de binaire avant d'entamer le reverse (malware - ctf).")
@@ -145,6 +132,8 @@ def main():
    
     display_calling_convention(console, arch.name)
 
+    # AFFICHAGE DE L'INSTRUCTION SET 
+    print_instruction_set(console, arch.name)
     ### AFFICHAGE DU CFG ###
     try:
         with console.status("[bold blue]\nGénération du CFG...[/bold blue]", spinner="dots"):

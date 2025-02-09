@@ -47,7 +47,7 @@ def display_calling_convention(console, arch_name):
         display_mips64_calling_convention(console)
     elif arch_name == "X86_64":
         display_x64_windows_calling_convention(console)
-    elif arch_name == "M68K":
+    elif arch_name == "M68K" or arch_name == "M68K" or arch_name == "MOTOROLA68K" or arch_name == "MOTOROLA68000":
         display_motorola_68000_calling_convention(console)
     else:
         console.print(f"Unsupported architecture: {arch_name}")
