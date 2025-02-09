@@ -63,7 +63,7 @@ ex:
 
 ![alt text](attachments_readme/yara.png)
 
-- Utilise Flos sur les PE afin d'extraire les stack strings :
+- Utilise Floss (mandiant) sur les PE afin d'extraire les stack strings :
 
 ![alt text](attachments_readme/floss_strings.png)
 
