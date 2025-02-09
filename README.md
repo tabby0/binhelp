@@ -44,6 +44,10 @@ ex:
 
 ![alt text](attachments_readme/calling_convention.png)
 
+- Affiche les principales instructions en fonction de l'architecture :
+
+![alt text](attachments_readme/instruction_set.png)
+
 - Reconnaitre et afficher les descriptions des fonctions utilisées :
 ex:
 
