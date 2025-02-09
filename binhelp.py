@@ -23,6 +23,7 @@ from rich.console import Console
 from rich.table import Table
 from rich.panel import Panel
 from rich.text import Text
+import click
 
 
 console = Console(record=True)
@@ -157,7 +158,7 @@ def print_calling_convention(console, arch_name):
 
 def print_binary_info(console, args):
      ### ANALYSE DU BINAIRE AVEC ANGR ###
-    proj = angr.Project(args.binary,auto_load_libs=False)
+    proj = angr.Project(args,auto_load_libs=False)
     arch = proj.arch
     entry_point = hex(proj.entry)
     filename = proj.filename
@@ -206,49 +207,65 @@ def main():
     # Ajouter une detection des fonctions les plus vulnérables
     # Ajoutes une liste des principaux types avec leurs valeurs dans IDA
 
+    @click.command()
+    @click.argument('binary')
+    @click.option('-f', '--full', is_flag=True, default=False, help='Exécuter toutes les analyses.')
+    @click.option('-y', '--yara', is_flag=True, help='Exécuter uniquement l\'analyse YARA.')
+    @click.option('-c', '--calling', type=str, help='Exécuter l\'analyse des conventions d\'appel et des instructions pour une architecture donnée.')
+    @click.option('-s', '--strings', is_flag=True, help='Exécuter toutes les analyses liées aux chaînes.')
 
-    html_content = ""
-    
-    parser = argparse.ArgumentParser(description="Script de pré-analyze de binaire avant d'entamer le reverse (malware - ctf).")
-    parser.add_argument("binary", help="Le chemin vers le fichier binaire à analyser")
-    args = parser.parse_args()
-
-    
-    print_banner(console)
-
-    print_user_info(console, check_internet(), check_vm(), check_aslr(console), os.uname())
-
-    user_input = console.input("\n❓ [bold]Voulez-vous continuer l'analyse ? (y/n):[/bold] ").strip().lower()
-    console.print("\n")
-    if user_input != 'y' and user_input != '':
-        print("Analyse terminée.")
-        return
-   
-    binary_strings, arch_name, proj, file_path = print_binary_info(console, args)
-
-    print_calling_convention(console, arch_name)
-
-    print_instruction_set(console, arch_name)
-    
-    cfg = print_identified_functions(console, proj)
-
-    print_verbose_identified_functions(console, cfg)
-
-    print_yara_result(console, file_path)
-
-    if proj.loader.main_object.os == 'windows':
+    def run_analysis(binary, full, yara, calling, strings):
         
-        print_flare_floss_result(console, file_path)
-    
-    print_stringsifter_result(console, binary_strings)
-    
-    print_all_strings(console, binary_strings)
-    
-    check_aslr(console)
+        if full:
+            html_content = ""
+            print_banner(console)
+            print_user_info(console, check_internet(), check_vm(), check_aslr(console), os.uname())
+            
+            user_input = console.input("\n❓ [bold]Voulez-vous continuer l'analyse ? (y/n):[/bold] ").strip().lower()
+            console.print("\n")
+            if user_input != 'y' and user_input != '':
+                print("Analyse terminée.")
+                return
 
-    html_content += console.export_html(inline_styles=True)
-    save_to_html(html_content)
+            binary_strings, arch_name, proj, file_path = print_binary_info(console, binary)
+            print_calling_convention(console, arch_name)
+            print_instruction_set(console, arch_name)
+            cfg = print_identified_functions(console, proj)
+            print_verbose_identified_functions(console, cfg)
+            print_yara_result(console, file_path)
+            if proj.loader.main_object.os == 'windows':
+                print_flare_floss_result(console, file_path)
+            print_stringsifter_result(console, binary_strings)
+            print_all_strings(console, binary_strings)
+            check_aslr(console)
+        elif yara:
+            html_content = ""
+            print_banner(console)
+            binary_strings, arch_name, proj, file_path = print_binary_info(console, binary)
+            print_banner(console)
+            print_yara_result(console, file_path)
+        elif calling:
+            html_content = ""
+            print_banner(console)
+            print_calling_convention(console, calling)
+            print_instruction_set(console, calling)
+        elif strings:
+            html_content = ""
+            print_banner(console)
+            binary_strings, arch_name, proj, file_path = print_binary_info(console, binary)
+            binary_strings, arch_name, proj, file_path = print_binary_info(console, binary)
+            if proj.loader.main_object.os == 'windows':
+                print_flare_floss_result(console, file_path)
+            print_stringsifter_result(console, binary_strings)
+            print_all_strings(console, binary_strings)
+        else:
+            click.echo("Aucune option choisie. Utilisez --help pour voir les options disponibles.")
+        html_content = console.export_html(inline_styles=True)
+        save_to_html(html_content)
+        
 
+    run_analysis()
 
+    
 if __name__ == "__main__":
     main()

@@ -95,23 +95,14 @@ def display_x86_global_calling_convention(console):
     argument_table.add_row("[bold red]ECX[/bold red]", "3rd argument")
     argument_table.add_row("[bold red]Stack[/bold red]", "Additional arguments (right-to-left)")
 
-    detection_table = Table(show_header=True, header_style="bold")
-    detection_table.add_column("Convention", style="bold")
-    detection_table.add_column("Detection Method", style="bold")
-    detection_table.add_row("[bold blue]cdecl[/bold blue]", "Caller cleans the stack")
-    detection_table.add_row("[bold blue]stdcall[/bold blue]", "Callee cleans the stack")
-    detection_table.add_row("[bold blue]fastcall[/bold blue]", "First two arguments in ECX and EDX, rest on stack")
-    detection_table.add_row("[bold blue]thiscall[/bold blue]", "First argument (this pointer) in ECX, rest on stack")
-
     calling_convention_panel = Panel(table, title="[bold blue]Calling Convention[/bold blue]", title_align="left", border_style="blue")
     stack_layout_panel = Panel(stack_table, title="[bold blue]Stack Layout[/bold blue]", title_align="left", border_style="blue")
     argument_passing_panel = Panel(argument_table, title="[bold blue]Argument Passing[/bold blue]", title_align="left", border_style="blue")
-    detection_panel = Panel(detection_table, title="[bold blue]Detection Methods[/bold blue]", title_align="left", border_style="blue")
 
     console.print(calling_convention_panel)
     console.print(argument_passing_panel)
     console.print(stack_layout_panel)
-    console.print(detection_panel)
+
 
 def display_cdecl_calling_convention(console):
     table = Table(show_header=True, header_style="bold")
