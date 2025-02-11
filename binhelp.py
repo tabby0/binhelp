@@ -208,13 +208,22 @@ def main():
     # Ajoutes une liste des principaux types avec leurs valeurs dans IDA
 
     @click.command()
-    @click.argument('binary')
-    @click.option('-f', '--full', is_flag=True, default=False, help='Exécuter toutes les analyses.')
-    @click.option('-y', '--yara', is_flag=True, help='Exécuter uniquement l\'analyse YARA.')
-    @click.option('-c', '--calling', type=str, help='Affiche la calling convention et le set d\'instruction pour une architecture donnée.(Disponibles : AMD64, X86, X86_64, ARMEL, AARCH64, MIPS32, MIPS64,  MOTOROLA68000')
-    @click.option('-s', '--strings', is_flag=True, help='Exécuter toutes les analyses liées aux chaînes.')
+    @click.argument('binary', required=False)
+    @click.option('-f', '--full', is_flag=True, default=False, help='Analyse complète avec rapport')
+    @click.option('-y', '--yara', is_flag=True, help='Appliques uniquement des régles yara sur un binaire.')
+    @click.option('-c', '--calling', type=str, help='! Ne prends pas de binaire en argument ! Affiche la calling convention et autres informations utiles avant de commencer une analyse (Disponibles : AMD64, X86, X86_64, ARMEL, AARCH64, MIPS32, MIPS64, MOTOROLA68000)')
+    @click.option('-s', '--strings', is_flag=True, help='Appliques uniquement la recherche de strings (et stack strings) sur un binaire')
+    @click.option('-h', '--help', is_flag=True, help='Affiche ce message et quitte')
 
-    def run_analysis(binary, full, yara, calling, strings):
+    def run_analysis(binary, full, yara, calling, strings, help):
+        if help:
+            click.echo(run_analysis.get_help(click.Context(run_analysis)))
+            return
+        
+        options = [full, yara, calling, strings]
+        if sum(bool(option) for option in options) > 1:
+            click.echo("Erreur: Les options -f, -y, -c, et -s ne peuvent pas être combinées.")
+            return
         
         if full:
             html_content = ""
@@ -253,7 +262,6 @@ def main():
             html_content = ""
             print_banner(console)
             binary_strings, arch_name, proj, file_path = print_binary_info(console, binary)
-            binary_strings, arch_name, proj, file_path = print_binary_info(console, binary)
             if proj.loader.main_object.os == 'windows':
                 print_flare_floss_result(console, file_path)
             print_stringsifter_result(console, binary_strings)
@@ -263,7 +271,6 @@ def main():
         html_content = console.export_html(inline_styles=True)
         save_to_html(html_content)
         
-
     run_analysis()
 
     
