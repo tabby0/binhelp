@@ -14,6 +14,7 @@ from packages.angr_utilities import *
 from packages.calling_convention import *
 from packages.instructions_set import *
 from packages.virus_total import *
+from packages.register_values import *
 
 import angr
 import os
@@ -198,8 +199,8 @@ def print_banner(console):
     console.print("\n")
 
 def main():
+
     # TO DO
-    # forcer l'affichage d'une architecture
     # rajouter une fonctionnalitée pour voir l'équivalent des fonction en python
     # Ajouter une license pour tout tes scripts
     # checker si tu as cette implémentation dans ton script en python
@@ -239,6 +240,7 @@ def main():
             binary_strings, arch_name, proj, file_path = print_binary_info(console, binary)
             print_calling_convention(console, arch_name)
             print_instruction_set(console, arch_name)
+            display_register_representation(console, arch_name)
             cfg = print_identified_functions(console, proj)
             print_verbose_identified_functions(console, cfg)
             print_yara_result(console, file_path)
@@ -258,6 +260,7 @@ def main():
             print_banner(console)
             print_calling_convention(console, calling)
             print_instruction_set(console, calling)
+            display_register_representation(console, calling)
         elif strings:
             html_content = ""
             print_banner(console)
