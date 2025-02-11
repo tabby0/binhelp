@@ -15,6 +15,7 @@ from packages.calling_convention import *
 from packages.instructions_set import *
 from packages.virus_total import *
 from packages.register_values import *
+from packages.ida_python_types import *
 
 import angr
 import os
@@ -25,6 +26,7 @@ from rich.table import Table
 from rich.panel import Panel
 from rich.text import Text
 import click
+
 
 
 console = Console(record=True)
@@ -214,16 +216,18 @@ def main():
     @click.option('-y', '--yara', is_flag=True, help='Appliques uniquement des régles yara sur un binaire.')
     @click.option('-c', '--calling', type=str, help='! Ne prends pas de binaire en argument ! Affiche la calling convention et autres informations utiles avant de commencer une analyse (Disponibles : AMD64, X86, X86_64, ARMEL, AARCH64, MIPS32, MIPS64, MOTOROLA68000)')
     @click.option('-s', '--strings', is_flag=True, help='Appliques uniquement la recherche de strings (et stack strings) sur un binaire')
+    @click.option('-n', '--newbie', is_flag=True, help='Affiche les informations qu\'un newbie devrait connaitre')
     @click.option('-h', '--help', is_flag=True, help='Affiche ce message et quitte')
 
-    def run_analysis(binary, full, yara, calling, strings, help):
+    def run_analysis(binary, full, yara, calling, strings, newbie, help):
+       
         if help:
             click.echo(run_analysis.get_help(click.Context(run_analysis)))
             return
         
-        options = [full, yara, calling, strings]
+        options = [full, yara, calling, strings, newbie]
         if sum(bool(option) for option in options) > 1:
-            click.echo("Erreur: Les options -f, -y, -c, et -s ne peuvent pas être combinées.")
+            click.echo("Erreur: Les options -f, -y, -c, -s, et -n ne peuvent pas être combinées.")
             return
         
         if full:
@@ -269,13 +273,23 @@ def main():
                 print_flare_floss_result(console, file_path)
             print_stringsifter_result(console, binary_strings)
             print_all_strings(console, binary_strings)
+        elif newbie:
+            
+            html_content = ""
+            print_banner(console)
+            display_data_type_equivalents(console)
+            display_ascii_explanation(console)
+            display_ascii_table(console)
+            display_reverse_engineering_libraries(console)
+            display_gef_commands(console)
+            display_pwn_commands(console)
         else:
             click.echo("Aucune option choisie. Utilisez --help pour voir les options disponibles.")
         html_content = console.export_html(inline_styles=True)
         save_to_html(html_content)
         
-    run_analysis()
-
+    run_analysis()    
     
-if __name__ == "__main__":
+
+if __name__ == '__main__':
     main()
