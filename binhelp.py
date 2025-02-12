@@ -160,38 +160,44 @@ def print_calling_convention(console, arch_name):
     display_calling_convention(console, arch_name)
 
 def print_binary_info(console, args):
-     ### ANALYSE DU BINAIRE AVEC ANGR ###
-    proj = angr.Project(args,auto_load_libs=False)
-    arch = proj.arch
-    entry_point = hex(proj.entry)
-    filename = proj.filename
-    file_path = proj.loader._main_binary_path
-    min_load_addr = hex(proj.loader.min_addr)
-    max_load_addr = hex(proj.loader.max_addr)
-    shared_libraries = proj.loader.shared_objects
-    sha256sum = sha256_file(proj.loader._main_binary_path)
-    imphash = compute_imphash(file_path)
-    is_stack_executable = proj.loader.main_object.execstack
-    is_position_independent = proj.loader.main_object.pic
-    binary_strings = extract_ascii_unicode_strings(file_path)
-    vt_score = get_virus_total_score(sha256sum)
+    try:
+        ### ANALYSE DU BINAIRE AVEC ANGR ###
+        proj = angr.Project(args, auto_load_libs=False)
+        arch = proj.arch
+        entry_point = hex(proj.entry)
+        filename = proj.filename
+        file_path = proj.loader._main_binary_path
+        min_load_addr = hex(proj.loader.min_addr)
+        max_load_addr = hex(proj.loader.max_addr)
+        shared_libraries = proj.loader.shared_objects
+        sha256sum = sha256_file(proj.loader._main_binary_path)
+        imphash = compute_imphash(file_path)
+        is_stack_executable = proj.loader.main_object.execstack
+        is_position_independent = proj.loader.main_object.pic
+        binary_strings = extract_ascii_unicode_strings(file_path)
+        vt_score = get_virus_total_score(sha256sum)
 
-    ### AFFICHAGE DES DONNEES ANALYSEES AVEC ANGR ###
-    console.print(Panel(f"[bold red][-] Architecture:[/bold red] [blue]{arch}[/blue]\n"
-                        f"[bold red][-] Point d'entrée:[/bold red] [bold]{entry_point}[/bold]\n"
-                        f"[bold red][-] Nom du fichier:[/bold red] [bold]{filename}[/bold]\n"
-                        f"[bold red][-] Chemin du fichier:[/bold red] [bold]{file_path}[/bold]\n"
-                        f"[bold red][-] Adresse de chargement minimale:[/bold red] [bold]{min_load_addr}[/bold]\n"
-                        f"[bold red][-] Adresse de chargement maximale:[/bold red] [bold]{max_load_addr}[/bold]\n"
-                        f"[bold red][-] Bibliothèques partagées:[/bold red] [bold]{shared_libraries}[/bold]\n"
-                        f"[bold red][-] SHA-256:[/bold red] [bold green]{sha256sum}[/bold green]\n"
-                        f"[bold red][-] Imphash:[/bold red] [bold green]{imphash}[/bold green]\n"
-                        f"[bold red][-] Pile exécutable:[/bold red] [bold]{is_stack_executable}[/bold]\n"
-                        f"[bold red][-] Position indépendante:[/bold red] [bold]{is_position_independent}[/bold]\n"
-                        f"[bold red][-] Score virus total (sha256) :[/bold red] [bold yellow]{vt_score}[/bold yellow] 🛡️",
-                        title="Binary Information", expand=False, border_style="bold blue"))
-    
-    return binary_strings, arch.name, proj, file_path
+        ### AFFICHAGE DES DONNEES ANALYSEES AVEC ANGR ###
+        console.print(Panel(f"[bold red][-] Architecture:[/bold red] [blue]{arch}[/blue]\n"
+                            f"[bold red][-] Point d'entrée:[/bold red] [bold]{entry_point}[/bold]\n"
+                            f"[bold red][-] Nom du fichier:[/bold red] [bold]{filename}[/bold]\n"
+                            f"[bold red][-] Chemin du fichier:[/bold red] [bold]{file_path}[/bold]\n"
+                            f"[bold red][-] Adresse de chargement minimale:[/bold red] [bold]{min_load_addr}[/bold]\n"
+                            f"[bold red][-] Adresse de chargement maximale:[/bold red] [bold]{max_load_addr}[/bold]\n"
+                            f"[bold red][-] Bibliothèques partagées:[/bold red] [bold]{shared_libraries}[/bold]\n"
+                            f"[bold red][-] SHA-256:[/bold red] [bold green]{sha256sum}[/bold green]\n"
+                            f"[bold red][-] Imphash:[/bold red] [bold green]{imphash}[/bold green]\n"
+                            f"[bold red][-] Pile exécutable:[/bold red] [bold]{is_stack_executable}[/bold]\n"
+                            f"[bold red][-] Position indépendante:[/bold red] [bold]{is_position_independent}[/bold]\n"
+                            f"[bold red][-] Score virus total (sha256) :[/bold red] [bold yellow]{vt_score}[/bold yellow] 🛡️",
+                            title="Binary Information", expand=False, border_style="bold blue"))
+    except Exception as e:
+        console.print(f"[bold red]Erreur lors de l'analyse du binaire: {e}[/bold red]")
+        arch = "blob"
+        binary_strings = []
+        file_path = args
+
+    return binary_strings, arch, proj, file_path
 
 def print_banner(console):
     console.print("\n")
